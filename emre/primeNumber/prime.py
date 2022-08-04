@@ -1,4 +1,5 @@
 import random
+
 """
 
 print(random.randint(0,9))
@@ -44,18 +45,21 @@ print(divmod(10,6))      (1,4)
 """
 
 
-sayi=int(input("Sayıyı girin :"))
-if sayi > 1:
-    for i in range(2,sayi):
-        if(sayi%i)==0:
-            print(sayi,"Asal sayi degildir.")
-            break
+def isPrime(number):
+    myDividers=[]
+    prime=True
+    for i in range(2, number):
+        if (number % i) == 0:
+            myDividers.append(i)
+            prime=False
+    return prime, myDividers
+
+
+if __name__ == "__main__":
+    while True:
+        sayi = int(input("Sayıyı girin :"))
+        result, notPrime = isPrime(sayi)
+        if result:
+            print(sayi, "Asal sayıdır.\n\n")
         else:
-            print(sayi,"Asal sayıdır.")
-    else:
-        print(sayi,"Asal sayı degildir.")
-
-
-
-
-
+            print(sayi, "Asal sayi degildir. " , notPrime)
