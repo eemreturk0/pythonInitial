@@ -10,6 +10,16 @@
 **********
 **********
 """
+height = int(input("enini giriniz :"))
+width = int(input("yükseklik giriniz :"))
+
+
+
+for eni in range(width):
+    for yukseklik in range(height):
+        print("*", end=' ')
+
+    print()
 
 
 
