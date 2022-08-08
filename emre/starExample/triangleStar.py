@@ -22,17 +22,25 @@ height 5 için
 2. satır 2 boşluk 5 yıldız 2 boşluk
 3. satır 1 boşluk 7 yıldız 1 boşluk
 """
-height = int(input("yükseklik giriniz :"))
+while True:
+        height = int(input("yükseklik giriniz :"))
+        if height < 4 :
+                print("4 ve 20 arasında olmak zorunda")
 
-for i in range(height):
-        #for j in range(height-i-1):
-        print(" "*(height-i-1),end="")
-        print("*"*(2*i+1), end="")
-        #for j in range(2*i+1):
-        #        print("*",end="")
+                        #print("4 ve 20 arasında olmak zorunda")
+                break
+
+        else:
+
+                for i in range(height):
+                        #for j in range(height-i-1):
+                        print(" "*(height-i-1),end="")
+                        print("*"*(2*i+1), end="")
+                        #for j in range(2*i+1):
+                        #        print("*",end="")
 
 
-        print()
+                        print()
 
 
 
