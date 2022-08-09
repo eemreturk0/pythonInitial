@@ -28,6 +28,13 @@ class Room():
         self.name = name
         self.lesson_list = []
 
+    def __repr__(self):
+
+        return self.__dict__.__str__()
+
+
+    def __str__(self):
+        return self.__repr__()
 class School:
     def __init__(self, name:str):
         self.name = name
@@ -69,6 +76,14 @@ class School:
 
         self.teacher_list.append(teacher)
         print("successful..")
+
+    def add_room(self,room_name:str):
+        print("adding room...")
+        time.sleep(1)
+        room = Room(room_name)
+
+        self.room_list.append(room)
+        print("seccessful..")
 
 
 class People:

@@ -41,6 +41,7 @@ if __name__ == "__main__":
         schoolObj.admin=adminObj
         schoolObj.add_teacher("Cihat",LesseonType.MATH)
         schoolObj.add_student("Furkan")
+        schoolObj.add_room("bilgisayar")
         print("School")
         print(schoolObj)
 
