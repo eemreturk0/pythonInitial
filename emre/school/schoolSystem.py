@@ -8,7 +8,6 @@ def startFunction():
     print()
     print("**************")
 
-
 def Menu():
     print("""
     1- Öğrenci ekle
@@ -18,32 +17,21 @@ def Menu():
     5- Çıkmak içi x ya basın
     
     """)
-    islem = input("İşlemi seçiniz:")
-
-    if (islem == "x"):
-        print("School System sonlanlandırılıyor...")
-
-
-    elif (islem == "1"):
-        student_name = input("İsimleri ',' ile ayırarak girin")
-
-        student_list = student_name.split(",")
-        for eklenecekler in student_list:
-            People.add_Student(eklenecekler)
-    else:
-        print("Geçersiz işlem....")
-
 
 if __name__ == "__main__":
-
+        print(startFunction())
         schoolObj = School("Ebyu")
         adminObj = Admin("Emre")
         schoolObj.admin=adminObj
         schoolObj.add_teacher("Cihat",LesseonType.MATH)
         schoolObj.add_student("Furkan")
         schoolObj.add_room("bilgisayar")
+        schoolObj.add_admin("TÜRK")
+        schoolObj.add_admin("EMRE")
         print("School")
         print(schoolObj)
+        print(schoolObj.admin_list)
+
 
 
 

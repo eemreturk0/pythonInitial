@@ -43,6 +43,7 @@ class School:
         self.teacher_list = []
         self.room_list = []
         self.lesson_list = []
+        self.admin_list = []
 
     def add_student(self, student_name:str):
         print("adding students...")
@@ -64,7 +65,6 @@ class School:
     def __repr__(self):
 
         return self.__dict__.__str__()
-        #return "name:%s admin:%d student:%s teacher:%d room:%d lesson:%d " % (self.name, self.admin, self.student_list, self.teacher_list, self.room_list,self.lesson_list)
 
     def __str__(self):
         return self.__repr__()
@@ -84,6 +84,13 @@ class School:
 
         self.room_list.append(room)
         print("seccessful..")
+    def add_admin(self,admin_name:str):
+        print("adding admin user...")
+        time.sleep(1)
+        admin = Admin(admin_name)
+
+        self.admin_list.append(admin)
+        print("seccesful..")
 
 
 class People:
