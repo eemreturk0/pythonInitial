@@ -17,12 +17,19 @@ class LesseonType(enum.Enum):
 
 
 class Lesson():
-    def __init__(self, lesson_type:LesseonType):
+    def __init__(self,lesson_type:LesseonType):
+
         self.lesson_type = lesson_type
         self.teacher = None
         self.student_list = []
         self.room = None
+    def __repr__(self):
 
+        return self.__dict__.__str__()
+
+
+    def __str__(self):
+        return self.__repr__()
 class Room():
     def __init__(self,name):
         self.name = name
@@ -91,7 +98,13 @@ class School:
 
         self.admin_list.append(admin)
         print("seccesful..")
+    def add_lesson(self,lesson_type:LesseonType):
+        print("adding lesson...")
+        time.sleep(1)
+        lessonObj = Lesson(lesson_type)
 
+        self.lesson_list.append(lessonObj)
+        print("seccesful..")
 
 class People:
     def __init__(self, name, type:PeopleType):
@@ -131,6 +144,7 @@ class Teacher(People):
 
     def __str__(self):
         return self.__repr__()
+
 
 class Student(People):
     def __init__(self, name, number:int):

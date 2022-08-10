@@ -3,7 +3,7 @@ GRADETWO_RATE = 0.2
 GRADETREE_RATE = 0.25
 PROJECTGRADE_RATE = 0.4
 class Student():
-    def __init__(self,name,grade1,grade2,grade3,project_grade):
+    def __init__(self,name:str,grade1:int,grade2:int,grade3,project_grade):
         self.name=name
         self.grade1=grade1
         self.grade2=grade2
