@@ -15,35 +15,35 @@ class LesseonType(enum.Enum):
     KIMYA = 3
 
 
-
 class Lesson():
-    def __init__(self,lesson_type:LesseonType):
-
+    def __init__(self, lesson_type: LesseonType, code: str):
         self.lesson_type = lesson_type
+        self.code = code
         self.teacher = None
         self.student_list = []
-        self.room = None
+        self.lessonRoom = None
+
     def __repr__(self):
-
         return self.__dict__.__str__()
-
 
     def __str__(self):
         return self.__repr__()
+
+
 class Room():
-    def __init__(self,name):
-        self.name = name
+    def __init__(self, room_name):
+        self.room_name = room_name
         self.lesson_list = []
 
     def __repr__(self):
-
         return self.__dict__.__str__()
-
 
     def __str__(self):
         return self.__repr__()
+
+
 class School:
-    def __init__(self, name:str):
+    def __init__(self, name: str):
         self.name = name
         self.admin = None
         self.student_list = []
@@ -52,23 +52,24 @@ class School:
         self.lesson_list = []
         self.admin_list = []
 
-    def add_student(self, student_name:str):
+    def add_student(self, student_name: str):
         print("adding students...")
-        time.sleep(1)
+
         control = False
         number = 0
         while not control:
             control = True
-            number = random.randint(1,1000)
+            number = random.randint(1, 1000)
             for st in self.student_list:
-                if(st.number == number):
+                if (st.number == number):
                     control = False
                     break
 
-        student = Student(student_name,number)
+        student = Student(student_name, number)
 
         self.student_list.append(student)
         print("successful..")
+
     def __repr__(self):
 
         return self.__dict__.__str__()
@@ -76,38 +77,55 @@ class School:
     def __str__(self):
         return self.__repr__()
 
-    def add_teacher(self, teacher_name:str,lesson:LesseonType):
-        print("adding teacher...")
-        time.sleep(1)
-        teacher = Teacher(teacher_name,lesson)
+    def add_teacher(self, teacher_name: str, lesson: LesseonType):
+        print("\nadding teacher...")
+
+        teacher = Teacher(teacher_name, lesson)
 
         self.teacher_list.append(teacher)
         print("successful..")
 
-    def add_room(self,room_name:str):
-        print("adding room...")
-        time.sleep(1)
+    def add_room(self, room_name: str):
+        print("\nadding room...")
+
         room = Room(room_name)
 
         self.room_list.append(room)
-        print("seccessful..")
-    def add_admin(self,admin_name:str):
-        print("adding admin user...")
-        time.sleep(1)
+        print("successful..")
+
+    def add_admin(self, admin_name: str):
+        print("\nadding admin user...")
+
         admin = Admin(admin_name)
 
         self.admin_list.append(admin)
-        print("seccesful..")
-    def add_lesson(self,lesson_type:LesseonType):
-        print("adding lesson...")
-        time.sleep(1)
-        lessonObj = Lesson(lesson_type)
+        print("successful..")
 
+    def add_lesson(self, lesson_type: LesseonType, code: str):
+        """
+        :param lesson_type:
+        :param code:
+        :return:
+        """
+        print("\nadding lesson...")
+        lessonObj = Lesson(lesson_type, code)
         self.lesson_list.append(lessonObj)
-        print("seccesful..")
+        print("successful..")
+
+    @classmethod
+    def add_lesson_to_room(cls, lessonObj: Lesson, roomObj: Room):
+        """
+        Bu kod Lessona Room ekler aynı zamanda Roomun lessonlistesine lesson ekler.
+        :param lessonObj: eklenecek ders
+        :param roomObj: eklenecek sınıf
+        :return:
+        """
+        roomObj.lesson_list.append(lessonObj)
+        lessonObj.lessonRoom = roomObj
+
 
 class People:
-    def __init__(self, name, type:PeopleType):
+    def __init__(self, name, type: PeopleType):
         print("People sınıfının init fonksiyonu")
 
         self.name = name
@@ -125,16 +143,16 @@ class Admin(People):
 
     def level_degis(self, new_level):
         self.level = new_level
+
     def __repr__(self):
-
         return self.__dict__.__str__()
-
 
     def __str__(self):
         return self.__repr__()
 
+
 class Teacher(People):
-    def __init__(self, name, lesson:LesseonType):
+    def __init__(self, name, lesson: LesseonType):
         super().__init__(name, PeopleType.TEACHER)
         print("Teacher sınıfının init fonksiyonu")
         self.lesson = lesson
@@ -147,7 +165,7 @@ class Teacher(People):
 
 
 class Student(People):
-    def __init__(self, name, number:int):
+    def __init__(self, name, number: int):
         super().__init__(name, PeopleType.STUDENT)
         self.lesson_list = []
         self.number = number
