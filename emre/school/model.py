@@ -19,15 +19,16 @@ class Lesson():
     def __init__(self, lesson_type: LesseonType, code: str):
         self.lesson_type = lesson_type
         self.code = code
-        self.teacher = None
         self.student_list = []
         self.lessonRoom = None
-
+        self.teacher_list = []
     def __repr__(self):
         return self.__dict__.__str__()
 
     def __str__(self):
         return self.__repr__()
+    def get_name(self):
+        return self.code+" "+self.lesson_type.name
 
 
 class Room():
@@ -42,6 +43,64 @@ class Room():
         return self.__repr__()
 
 
+class People:
+    def __init__(self, name, type: PeopleType):
+        print("People sınıfının init fonksiyonu")
+
+        self.name = name
+        self.type = type
+
+    def peopleBilgiSystem(self):
+        print("people bilgi system..")
+
+        print("Name : {}\nType : {}\n".format(self.name, self.type))
+
+
+class Admin(People):
+    def __init__(self, name):
+        super().__init__(name, PeopleType.ADMIN)
+
+    def level_degis(self, new_level):
+        self.level = new_level
+
+    def __repr__(self):
+        return self.__dict__.__str__()
+
+    def __str__(self):
+        return self.__repr__()
+
+
+class Teacher(People):
+    def __init__(self, name, lesson_type: LesseonType):
+        super().__init__(name, PeopleType.TEACHER)
+        print("Teacher sınıfının init fonksiyonu")
+        self.lesson_type = lesson_type
+        self.lesson_list = []
+
+    def __repr__(self):
+        return self.__dict__.__str__()
+
+    def __str__(self):
+        return self.__repr__()
+
+
+class Student(People):
+    def __init__(self, name, number: int):
+        super().__init__(name, PeopleType.STUDENT)
+        self.lesson_list = []
+        self.number = number
+
+    def __repr__(self):
+        return self.__dict__.__str__()
+
+    def __str__(self):
+        return self.__repr__()
+    def writer(self):
+        txt = "code: {code} Dersler :"
+
+        for l in self.lesson_list:
+            txt += (l.get_name() +"-")
+        print(txt.format(code=self.number))
 class School:
     def __init__(self, name: str):
         self.name = name
@@ -80,9 +139,9 @@ class School:
     def add_teacher(self, teacher_name: str, lesson: LesseonType):
         print("\nadding teacher...")
 
-        teacher = Teacher(teacher_name, lesson)
+        teacherObj = Teacher(teacher_name, lesson)
 
-        self.teacher_list.append(teacher)
+        self.teacher_list.append(teacherObj)
         print("successful..")
 
     def add_room(self, room_name: str):
@@ -123,55 +182,15 @@ class School:
         roomObj.lesson_list.append(lessonObj)
         lessonObj.lessonRoom = roomObj
 
+    @classmethod
+    def add_lesson_to_teacher(cls, lessonObj: Lesson, teacherObj:Teacher):
 
-class People:
-    def __init__(self, name, type: PeopleType):
-        print("People sınıfının init fonksiyonu")
-
-        self.name = name
-        self.type = type
-
-    def peopleBilgiSystem(self):
-        print("people bilgi system..")
-
-        print("Name : {}\nType : {}\n".format(self.name, self.type))
+        lessonObj.teacher_list.append(teacherObj)
+        teacherObj.lesson_list.append(lessonObj)
 
 
-class Admin(People):
-    def __init__(self, name):
-        super().__init__(name, PeopleType.ADMIN)
+    @classmethod
+    def add_student_to_lesson(cls,studentObj: Student, lessonObj: Lesson):
 
-    def level_degis(self, new_level):
-        self.level = new_level
-
-    def __repr__(self):
-        return self.__dict__.__str__()
-
-    def __str__(self):
-        return self.__repr__()
-
-
-class Teacher(People):
-    def __init__(self, name, lesson: LesseonType):
-        super().__init__(name, PeopleType.TEACHER)
-        print("Teacher sınıfının init fonksiyonu")
-        self.lesson = lesson
-
-    def __repr__(self):
-        return self.__dict__.__str__()
-
-    def __str__(self):
-        return self.__repr__()
-
-
-class Student(People):
-    def __init__(self, name, number: int):
-        super().__init__(name, PeopleType.STUDENT)
-        self.lesson_list = []
-        self.number = number
-
-    def __repr__(self):
-        return self.__dict__.__str__()
-
-    def __str__(self):
-        return self.__repr__()
+        studentObj.lesson_list.append(lessonObj)
+        lessonObj.student_list.append(studentObj)
