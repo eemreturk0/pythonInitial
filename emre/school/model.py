@@ -22,6 +22,7 @@ class Lesson():
         self.student_list = []
         self.lessonRoom = None
         self.teacher_list = []
+
     def __repr__(self):
         return self.__dict__.__str__()
 
@@ -29,7 +30,9 @@ class Lesson():
         return self.__repr__()
     def get_name(self):
         return self.code+" "+self.lesson_type.name
-
+    def writer(self):
+        txt = "ders: {ders} "
+        print(txt.format(ders=self.lesson_type.name))
 
 class Room():
     def __init__(self, room_name):
@@ -41,7 +44,9 @@ class Room():
 
     def __str__(self):
         return self.__repr__()
-
+    def writer(self):
+        txt = "sinif: {sinif} "
+        print(txt.format(sinif=self.room_name))
 
 class People:
     def __init__(self, name, type: PeopleType):
@@ -82,7 +87,9 @@ class Teacher(People):
 
     def __str__(self):
         return self.__repr__()
-
+    def writer(self):
+        txt = "ogretmen: {ogretmen} "
+        print(txt.format(ogretmen=self.name))
 
 class Student(People):
     def __init__(self, name, number: int):
@@ -96,11 +103,11 @@ class Student(People):
     def __str__(self):
         return self.__repr__()
     def writer(self):
-        txt = "code: {code} Dersler :"
+        txt = "ogrenci: {ogrenci} "
+        print(txt.format(ogrenci=self.name))
 
-        for l in self.lesson_list:
-            txt += (l.get_name() +"-")
-        print(txt.format(code=self.number))
+
+
 class School:
     def __init__(self, name: str):
         self.name = name
@@ -110,6 +117,36 @@ class School:
         self.room_list = []
         self.lesson_list = []
         self.admin_list = []
+
+    def filter(self,value,filter):
+        returnlist = []
+        if (value == "student"):
+            for s in self.student_list:
+                if filter in s.name:
+                    returnlist.append(s)
+
+
+        #elif (value == "teacher"):
+            #for t in self.teacher_list:
+                #t.writer()
+        #elif (value == "room"):
+            #for r in self.room_list:
+                #r.writer()
+       # elif (value == "lesson"):
+            #for l in self.lesson_list:
+             #   l.writer()
+        return returnlist
+    def del_student(self, studentNumber: int):
+        number = 0
+        sObj = self.student_list[studentNumber]
+        self.student_list.remove(sObj)
+
+    def del_teacher(self, teacherNumber: int):
+        number = 0
+        tObj = self.teacher_list[teacherNumber]
+        self.teacher_list.remove(tObj)
+
+
 
     def add_student(self, student_name: str):
         print("adding students...")
@@ -187,10 +224,37 @@ class School:
 
         lessonObj.teacher_list.append(teacherObj)
         teacherObj.lesson_list.append(lessonObj)
-
+    @classmethod
+    def del_lesson_to_teacher(cls, teacherObj: Teacher, lessonObj: Lesson):
+        teacherObj.lesson_list.remove(lessonObj)
+        lessonObj.teacher_list.remove(teacherObj)
 
     @classmethod
     def add_student_to_lesson(cls,studentObj: Student, lessonObj: Lesson):
 
         studentObj.lesson_list.append(lessonObj)
         lessonObj.student_list.append(studentObj)
+    @classmethod
+    def del_student_to_lesson(cls,studentObj: Student, lessonObj: Lesson):
+        studentObj.lesson_list.remove(lessonObj)
+        lessonObj.student_list.remove(studentObj)
+
+
+    def list_writer(self,value:str):
+        if(value == "student"):
+            for s in self.student_list:
+                s.writer()
+
+        elif(value == "teacher"):
+            for t in self.teacher_list:
+                t.writer()
+        elif(value == "room"):
+            for r in self.room_list:
+                r.writer()
+        elif(value == "lesson"):
+            for l in self.lesson_list:
+                l.writer()
+
+
+
+
