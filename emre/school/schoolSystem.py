@@ -132,11 +132,11 @@ def add_student_to_lesson_fromterminal():
 def add_teacher_to_lesson_fromterminal():
     while True:
         try :
-            print(schoolObj.list_writer("teacher"))
-            teacherNumber = int(input("teacher number yazınız :"))
             print(schoolObj.list_writer("lesson"))
             lessonNumber = int(input("lesson number yazınız :"))
-            schoolObj.add_lesson_to_teacher(schoolObj.teacher_list[teacherNumber], schoolObj.lesson_list[lessonNumber])
+            print(schoolObj.list_writer("teacher"))
+            teacherNumber = int(input("teacher number yazınız :"))
+            schoolObj.add_lesson_to_teacher(schoolObj.lesson_list[lessonNumber], schoolObj.teacher_list[teacherNumber])
             print(schoolObj.teacher_list)
             printPurple("Başaraıyla eklendi.")
             break
@@ -281,6 +281,8 @@ if __name__ == "__main__":
         elif cevap == 4:
             while True:
                 cevap = Lesson_menu()
+
+
 
         elif cevap == 0:
             printPurple("system sonlandırılıyor..")
