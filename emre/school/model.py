@@ -13,7 +13,9 @@ class LesseonType(enum.Enum):
     MATH = 1
     FIZIK = 2
     KIMYA = 3
-
+    ING = 4
+    TURKCE = 5
+    TARIH = 6
 
 class Lesson():
     def __init__(self, lesson_type: LesseonType, code: str):
@@ -33,6 +35,10 @@ class Lesson():
     def writer(self):
         txt = "ders: {ders} "
         print(txt.format(ders=self.lesson_type.name))
+
+    def writer_code(self):
+        txt = "ders: {ders} code: {code}"
+        print(txt.format(ders=self.lesson_type.name,code=self.code))
 
 class Room():
     def __init__(self, room_name):
@@ -118,13 +124,24 @@ class School:
         self.lesson_list = []
         self.admin_list = []
 
+    def lesson_filter(self,value,filter):
+        returnlist= []
+        if(value == "lesson"):
+            for l in self.lesson_list:
+                if filter in l.code:
+                    returnlist.append(l)
+        return returnlist
+
     def filter(self,value,filter):
         returnlist = []
         if (value == "student"):
             for s in self.student_list:
                 if filter in s.name:
                     returnlist.append(s)
-
+        elif (value == "lesson"):
+            for l in self.lesson_list:
+                if filter in l.lesson_type:
+                    returnlist.append(l)
 
         #elif (value == "teacher"):
             #for t in self.teacher_list:
@@ -255,6 +272,10 @@ class School:
             for l in self.lesson_list:
                 l.writer()
 
+    def lesson_writer(self,value:str):
+        if(value =="lesson"):
+            for l in self.lesson_list:
+                l.writer_code()
 
 
 

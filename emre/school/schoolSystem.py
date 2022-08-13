@@ -86,8 +86,8 @@ def Lesson_menu():
     while True:
         try:
             printText("""\n 
-    1-)Ders ekle
-    2-)Ders sil
+    1-)Bütün dersleri yazdır
+    2-)Ders tipine göre göster
     0-) Menuye donmek için 0 a bas""")
             answer = int(input(""))
             if answer in [1, 2, 0]:
@@ -191,8 +191,14 @@ if __name__ == "__main__":
     schoolObj.add_room("PC2")
     schoolObj.add_room("PC3")
     schoolObj.add_lesson(LesseonType.FIZIK, "FZ101")
+    schoolObj.add_lesson(LesseonType.FIZIK, "FZ102")
+    schoolObj.add_lesson(LesseonType.KIMYA, "KM101")
     schoolObj.add_lesson(LesseonType.KIMYA, "KM102")
-    schoolObj.add_lesson(LesseonType.MATH, "MT103")
+    schoolObj.add_lesson(LesseonType.MATH, "MT101")
+    schoolObj.add_lesson(LesseonType.MATH, "MT102")
+    schoolObj.add_lesson(LesseonType.ING, "I101")
+    schoolObj.add_lesson(LesseonType.TURKCE, "TU101")
+    schoolObj.add_lesson(LesseonType.TARIH, "TAR101")
     School.add_lesson_to_room(schoolObj.lesson_list[0], schoolObj.room_list[0])  # classmethod çağrısı yaptık
     School.add_lesson_to_room(schoolObj.lesson_list[1], schoolObj.room_list[1])
     School.add_lesson_to_room(schoolObj.lesson_list[2], schoolObj.room_list[2])
@@ -281,8 +287,14 @@ if __name__ == "__main__":
         elif cevap == 4:
             while True:
                 cevap = Lesson_menu()
-
-
+                if cevap ==1:
+                    schoolObj.list_writer("lesson")
+                if cevap ==2:
+                    schoolObj.lesson_writer("lesson")
+                    filt = schoolObj.lesson_filter("lesson",input("aranıcak kodu giriniz:"))
+                    print(filt)
+                if cevap== 0:
+                    break
 
         elif cevap == 0:
             printPurple("system sonlandırılıyor..")
