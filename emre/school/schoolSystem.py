@@ -108,22 +108,28 @@ def teacher_type(text: str) -> LesseonType:
                 return  LesseonType.KIMYA
             elif comingText == "m" or comingText == "MATH":
                 return  LesseonType.MATH
+            elif comingText == "i" or comingText == "ING":
+                return  LesseonType.ING
+            elif comingText == "t" or comingText == "TURKCE":
+                return  LesseonType.TURKCE
+            elif comingText == "ta" or comingText == "TARIH":
+                return  LesseonType.TARIH
             else:
-                printError("FIZIK , KIMYA, MATH OLMAK ZORUNDA")
+                printError("FIZIK , KIMYA, MATH, İNG, TURKCE, TARİH OLMAK ZORUNDA")
         except:
-            printError("Girdiğiniz değer f,k,m FIZIK,KIMYA,MAT olmak zorunda.")
+            printError("Girdiğiniz değer f,k,m,i,t,ta FIZIK,KIMYA,MAT,İNG,TURKCE,TARİH olmak zorunda.")
 
 
 def add_student_to_lesson_fromterminal():
     while True:
         try :
-            print(schoolObj.list_writer("student"))
+            printList("student",schoolObj.student_list)
             studentNumber = int(input("student number yazınız :"))
-            print(schoolObj.list_writer("lesson"))
+            printList("lesson",schoolObj.lesson_list)
             lessonNumber = int(input("lesson number yazınız :"))
             schoolObj.add_student_to_lesson(schoolObj.student_list[studentNumber], schoolObj.lesson_list[lessonNumber])
             printPurple("Başaraıyla eklendi.")
-            print(schoolObj.student_list)
+
             break
         except:
             printError("listedeki numara girilmeli")
@@ -132,12 +138,12 @@ def add_student_to_lesson_fromterminal():
 def add_teacher_to_lesson_fromterminal():
     while True:
         try :
-            print(schoolObj.list_writer("lesson"))
+            printList("lesson",schoolObj.lesson_list)
             lessonNumber = int(input("lesson number yazınız :"))
-            print(schoolObj.list_writer("teacher"))
+            printList("teacher",schoolObj.teacher_list)
             teacherNumber = int(input("teacher number yazınız :"))
             schoolObj.add_lesson_to_teacher(schoolObj.lesson_list[lessonNumber], schoolObj.teacher_list[teacherNumber])
-            print(schoolObj.teacher_list)
+
             printPurple("Başaraıyla eklendi.")
             break
         except:
@@ -147,9 +153,9 @@ def add_teacher_to_lesson_fromterminal():
 def del_student_to_lesson_fromterminal():
     while True:
         try :
-            print(schoolObj.list_writer("student"))
+            printList("student",schoolObj.student_list)
             studentNumber = int(input("student number yazınız :"))
-            print(schoolObj.list_writer("lesson"))
+            printList("lesson",schoolObj.lesson_list)
             lessonNumber = int(input("lesson number yazınız :"))
             schoolObj.del_student_to_lesson(schoolObj.student_list[studentNumber], schoolObj.lesson_list[lessonNumber])
             print(schoolObj.student_list)
@@ -162,9 +168,9 @@ def del_student_to_lesson_fromterminal():
 def dell_teacher_to_lesson_fromterminal():
     while True:
         try :
-            print(schoolObj.list_writer("teacher"))
+            printList("teacher",schoolObj.teacher_list)
             teacherNumber = int(input("teacher number yazınız :"))
-            print(schoolObj.list_writer("lesson"))
+            printList("lesson",schoolObj.lesson_list)
             lessonNumber = int(input("lesson number giriniz :"))
             schoolObj.del_lesson_to_teacher(schoolObj.teacher_list[teacherNumber], schoolObj.lesson_list[lessonNumber])
             print(schoolObj.teacher_list)
@@ -229,15 +235,14 @@ if __name__ == "__main__":
 
             while True:
                 cevap = Menu_main()
-
                 if cevap == 1:
-                    schoolObj.list_writer("student")
+                    printList("student", schoolObj.student_list)
                 elif cevap == 2:
-                    schoolObj.list_writer("teacher")
+                    printList("teacher",schoolObj.teacher_list)
                 elif cevap == 3:
-                    schoolObj.list_writer("room")
+                    printList("room",schoolObj.room_list)
                 elif cevap == 4:
-                    schoolObj.list_writer("lesson")
+                    printList("lesson", schoolObj.lesson_list)
                 elif cevap == 0:
                     break
         elif cevap ==2:
@@ -247,15 +252,15 @@ if __name__ == "__main__":
                 if cevap == 1:
                     ad = input("ögrenci adi:")
                     schoolObj.add_student(ad)
-                    print(schoolObj.list_writer("student"))
+                    printList("student",schoolObj.student_list)
                 elif cevap == 2:
-                    print(schoolObj.list_writer("student"))
+                    printList("student",schoolObj.student_list)
                     numberValue = int(input("numara giriniz :"))
                     schoolObj.del_student(numberValue)
-                    print(schoolObj.list_writer("student"))
+                    printList("student",schoolObj.student_list)
                 elif cevap == 3:
                     filt = schoolObj.filter("student",input("aranıcak harfleri girin:"))
-                    print(filt)
+                    printList("student",filt)
                 elif cevap == 4:
                     add_student_to_lesson_fromterminal()
                 elif cevap == 5:
@@ -266,17 +271,17 @@ if __name__ == "__main__":
             while True:
                 cevap =Teacher_menu()
                 if cevap == 1:
-                    print(schoolObj.list_writer("teacher"))
+                    printList("teacher",schoolObj.teacher_list)
                     ad = input("öğretmen adı:")
                     type = teacher_type("dersin kodu")
                     schoolObj.add_teacher(ad,type)
-                    print(schoolObj.list_writer("teacher"))
+                    printList("teacher",schoolObj.teacher_list)
                     print(schoolObj.teacher_list)
                 elif cevap ==2:
-                    print(schoolObj.list_writer("teacher"))
+                    printList("teacher",schoolObj.teacher_list)
                     numberValueTeacher = int(input("numara giriniz :"))
                     schoolObj.del_teacher(numberValueTeacher)
-                    print(schoolObj.list_writer("teacher"))
+                    printList("teacher",schoolObj.teacher_list)
                 elif cevap == 3:
                     add_teacher_to_lesson_fromterminal()
                     print(schoolObj.teacher_list)
@@ -288,11 +293,11 @@ if __name__ == "__main__":
             while True:
                 cevap = Lesson_menu()
                 if cevap ==1:
-                    schoolObj.list_writer("lesson")
+                    printList("lesson",schoolObj.lesson_list)
                 if cevap ==2:
-                    schoolObj.lesson_writer("lesson")
-                    filt = schoolObj.lesson_filter("lesson",input("aranıcak kodu giriniz:"))
-                    print(filt)
+                    printList("lesson",schoolObj.lesson_list)
+                    filt = schoolObj.filter("lesson",input("aranıcak kodu giriniz:"))
+                    printList("lesson",filt)
                 if cevap== 0:
                     break
 

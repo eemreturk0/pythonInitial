@@ -2,6 +2,8 @@ import time
 import random
 import enum
 
+from emre.school.printer import printList
+
 
 class PeopleType(enum.Enum):
     STUDENT = 1
@@ -33,12 +35,11 @@ class Lesson():
     def get_name(self):
         return self.code+" "+self.lesson_type.name
     def writer(self):
-        txt = "ders: {ders} "
-        print(txt.format(ders=self.lesson_type.name))
+            txt = "ders: {ders} code: {code}"
+            print(txt.format(ders=self.lesson_type.name, code=self.code))
 
-    def writer_code(self):
-        txt = "ders: {ders} code: {code}"
-        print(txt.format(ders=self.lesson_type.name,code=self.code))
+
+
 
 class Room():
     def __init__(self, room_name):
@@ -109,8 +110,12 @@ class Student(People):
     def __str__(self):
         return self.__repr__()
     def writer(self):
-        txt = "ogrenci: {ogrenci} "
+        txt = "ogrenci: {ogrenci}"
         print(txt.format(ogrenci=self.name))
+
+    def stWriter(self):
+        txt = "ogrenci: {ogrenci} ders: {ders}"
+        print(txt.format(ogrenci=self.name,ders=self.lesson_list))
 
 
 
@@ -124,13 +129,8 @@ class School:
         self.lesson_list = []
         self.admin_list = []
 
-    def lesson_filter(self,value,filter):
-        returnlist= []
-        if(value == "lesson"):
-            for l in self.lesson_list:
-                if filter in l.code:
-                    returnlist.append(l)
-        return returnlist
+
+
 
     def filter(self,value,filter):
         returnlist = []
@@ -138,10 +138,12 @@ class School:
             for s in self.student_list:
                 if filter in s.name:
                     returnlist.append(s)
+
         elif (value == "lesson"):
             for l in self.lesson_list:
-                if filter in l.lesson_type:
+                if filter in l.code:
                     returnlist.append(l)
+        return returnlist
 
         #elif (value == "teacher"):
             #for t in self.teacher_list:
@@ -152,7 +154,7 @@ class School:
        # elif (value == "lesson"):
             #for l in self.lesson_list:
              #   l.writer()
-        return returnlist
+
     def del_student(self, studentNumber: int):
         number = 0
         sObj = self.student_list[studentNumber]
@@ -257,25 +259,7 @@ class School:
         lessonObj.student_list.remove(studentObj)
 
 
-    def list_writer(self,value:str):
-        if(value == "student"):
-            for s in self.student_list:
-                s.writer()
 
-        elif(value == "teacher"):
-            for t in self.teacher_list:
-                t.writer()
-        elif(value == "room"):
-            for r in self.room_list:
-                r.writer()
-        elif(value == "lesson"):
-            for l in self.lesson_list:
-                l.writer()
-
-    def lesson_writer(self,value:str):
-        if(value =="lesson"):
-            for l in self.lesson_list:
-                l.writer_code()
 
 
 

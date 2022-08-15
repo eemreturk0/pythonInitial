@@ -26,6 +26,10 @@ def printError(error):
 
 def printWARNING(warning):
     print(bcolors.WARNING + warning + bcolors.ENDC)
+def printList(value:str,objList:[]):
+        for s in objList:
+            s.writer()
+
 
 
 if __name__ == "__main__":
