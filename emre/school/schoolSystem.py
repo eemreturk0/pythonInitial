@@ -1,5 +1,6 @@
 import time
 
+from emre.school.fileManager import *
 from emre.school.model import *
 from emre.school.printer import *
 
@@ -181,41 +182,43 @@ def dell_teacher_to_lesson_fromterminal():
 
 
 if __name__ == "__main__":
-
+    schoolObj = readFromFile()
     print(startFunction())
-    schoolObj = School("Ebyu")
-    adminObj = Admin("Emre")
-    schoolObj.admin = adminObj
-    schoolObj.add_teacher("Cihat", LesseonType.MATH)
-    schoolObj.add_teacher("Tufi", LesseonType.FIZIK)
-    schoolObj.add_teacher("Fatih", LesseonType.KIMYA)
-    schoolObj.add_student("Furkan")
-    schoolObj.add_student("Nur")
-    schoolObj.add_student("Ali")
-    schoolObj.add_admin("EMRE")
-    schoolObj.add_room("PC1")
-    schoolObj.add_room("PC2")
-    schoolObj.add_room("PC3")
-    schoolObj.add_lesson(LesseonType.FIZIK, "FZ101")
-    schoolObj.add_lesson(LesseonType.FIZIK, "FZ102")
-    schoolObj.add_lesson(LesseonType.KIMYA, "KM101")
-    schoolObj.add_lesson(LesseonType.KIMYA, "KM102")
-    schoolObj.add_lesson(LesseonType.MATH, "MT101")
-    schoolObj.add_lesson(LesseonType.MATH, "MT102")
-    schoolObj.add_lesson(LesseonType.ING, "I101")
-    schoolObj.add_lesson(LesseonType.TURKCE, "TU101")
-    schoolObj.add_lesson(LesseonType.TARIH, "TAR101")
-    School.add_lesson_to_room(schoolObj.lesson_list[0], schoolObj.room_list[0])  # classmethod çağrısı yaptık
-    School.add_lesson_to_room(schoolObj.lesson_list[1], schoolObj.room_list[1])
-    School.add_lesson_to_room(schoolObj.lesson_list[2], schoolObj.room_list[2])
-    School.add_lesson_to_teacher(schoolObj.lesson_list[0], schoolObj.teacher_list[1])
-    School.add_lesson_to_teacher(schoolObj.lesson_list[1], schoolObj.teacher_list[2])
-    School.add_lesson_to_teacher(schoolObj.lesson_list[2], schoolObj.teacher_list[0])
-    School.add_student_to_lesson(schoolObj.student_list[0], schoolObj.lesson_list[0])
-    School.add_student_to_lesson(schoolObj.student_list[1], schoolObj.lesson_list[1])
-    School.add_student_to_lesson(schoolObj.student_list[1], schoolObj.lesson_list[0])
-    School.add_student_to_lesson(schoolObj.student_list[2], schoolObj.lesson_list[2])
-    printWARNING("School")
+    if schoolObj == None:
+        schoolObj = School("Ebyu")
+        adminObj = Admin("Emre")
+        schoolObj.admin = adminObj
+        schoolObj.add_teacher("Cihat", LesseonType.MATH)
+        schoolObj.add_teacher("Tufi", LesseonType.FIZIK)
+        schoolObj.add_teacher("Fatih", LesseonType.KIMYA)
+        schoolObj.add_student("Furkan")
+        schoolObj.add_student("Nur")
+        schoolObj.add_student("Ali")
+        schoolObj.add_admin("EMRE")
+        schoolObj.add_room("PC1")
+        schoolObj.add_room("PC2")
+        schoolObj.add_room("PC3")
+        schoolObj.add_lesson(LesseonType.FIZIK, "FZ101")
+        schoolObj.add_lesson(LesseonType.FIZIK, "FZ102")
+        schoolObj.add_lesson(LesseonType.KIMYA, "KM101")
+        schoolObj.add_lesson(LesseonType.KIMYA, "KM102")
+        schoolObj.add_lesson(LesseonType.MATH, "MT101")
+        schoolObj.add_lesson(LesseonType.MATH, "MT102")
+        schoolObj.add_lesson(LesseonType.ING, "I101")
+        schoolObj.add_lesson(LesseonType.TURKCE, "TU101")
+        schoolObj.add_lesson(LesseonType.TARIH, "TAR101")
+        School.add_lesson_to_room(schoolObj.lesson_list[0], schoolObj.room_list[0])  # classmethod çağrısı yaptık
+        School.add_lesson_to_room(schoolObj.lesson_list[1], schoolObj.room_list[1])
+        School.add_lesson_to_room(schoolObj.lesson_list[2], schoolObj.room_list[2])
+        School.add_lesson_to_teacher(schoolObj.lesson_list[0], schoolObj.teacher_list[1])
+        School.add_lesson_to_teacher(schoolObj.lesson_list[1], schoolObj.teacher_list[2])
+        School.add_lesson_to_teacher(schoolObj.lesson_list[2], schoolObj.teacher_list[0])
+        School.add_student_to_lesson(schoolObj.student_list[0], schoolObj.lesson_list[0])
+        School.add_student_to_lesson(schoolObj.student_list[1], schoolObj.lesson_list[1])
+        School.add_student_to_lesson(schoolObj.student_list[1], schoolObj.lesson_list[0])
+        School.add_student_to_lesson(schoolObj.student_list[2], schoolObj.lesson_list[2])
+        printWARNING("School")
+        writeToFile(schoolObj)
     # print(schoolObj)
     # printPurple("TEACHER LİST")
     # print(schoolObj.teacher_list)
