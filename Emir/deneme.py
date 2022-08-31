@@ -1,0 +1,3 @@
+'Emir'
+"Emir"
+'"Emir"'
