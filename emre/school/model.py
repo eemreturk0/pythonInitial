@@ -1,7 +1,12 @@
 import time
 import random
 import enum
+import jsonpickle
 
+from emre.school.fileManager import writeToFile
+from emre.school.printer import printList
+import json
+import jsonpickle
 
 class PeopleType(enum.Enum):
     STUDENT = 1
@@ -13,15 +18,39 @@ class LesseonType(enum.Enum):
     MATH = 1
     FIZIK = 2
     KIMYA = 3
+    ING = 4
+    TURKCE = 5
+    TARIH = 6
+
+
+
 
 
 class Lesson():
     def __init__(self, lesson_type: LesseonType, code: str):
         self.lesson_type = lesson_type
         self.code = code
-        self.student_list = []
         self.lessonRoom = None
-        self.teacher_list = []
+
+    def get_student_list(self,school):
+        sList = []
+        for s in school.student_list:
+            for l in s.lesson_list:
+                if self.code == l.code and self.lesson_type == l.lesson_type:
+                    sList.append(s)
+                    break
+        return  sList
+
+
+    def get_teacher_list(self, school):
+        tList = []
+        for s in school.teacher_list:
+            for l in s.lesson_list:
+                if self.code == l.code and self.lesson_type == l.lesson_type:
+                    tList.append(s)
+                    break
+        return  tList
+
     def __repr__(self):
         return self.__dict__.__str__()
 
@@ -29,19 +58,32 @@ class Lesson():
         return self.__repr__()
     def get_name(self):
         return self.code+" "+self.lesson_type.name
+    def writer(self):
+            txt = "ders: {ders} code: {code}"
+            print(txt.format(ders=self.lesson_type.name, code=self.code))
+
+
 
 
 class Room():
     def __init__(self, room_name):
         self.room_name = room_name
-        self.lesson_list = []
 
+    def get_lesson_list(self,school):
+        rList = []
+        for l in school.lesson_list:
+            if l.lessonRoom.room_name== self.room_name:
+                rList.append(l)
+                break
+        return rList
     def __repr__(self):
         return self.__dict__.__str__()
 
     def __str__(self):
         return self.__repr__()
-
+    def writer(self):
+        txt = "sinif: {sinif} "
+        print(txt.format(sinif=self.room_name))
 
 class People:
     def __init__(self, name, type: PeopleType):
@@ -82,7 +124,9 @@ class Teacher(People):
 
     def __str__(self):
         return self.__repr__()
-
+    def writer(self):
+        txt = "ogretmen: {ogretmen} "
+        print(txt.format(ogretmen=self.name))
 
 class Student(People):
     def __init__(self, name, number: int):
@@ -96,11 +140,15 @@ class Student(People):
     def __str__(self):
         return self.__repr__()
     def writer(self):
-        txt = "code: {code} Dersler :"
+        txt = "ogrenci: {ogrenci}"
+        print(txt.format(ogrenci=self.name))
 
-        for l in self.lesson_list:
-            txt += (l.get_name() +"-")
-        print(txt.format(code=self.number))
+    def stWriter(self):
+        txt = "ogrenci: {ogrenci} ders: {ders}"
+        print(txt.format(ogrenci=self.name,ders=self.lesson_list))
+
+
+
 class School:
     def __init__(self, name: str):
         self.name = name
@@ -110,6 +158,45 @@ class School:
         self.room_list = []
         self.lesson_list = []
         self.admin_list = []
+
+
+
+
+    def filter(self,value,filter):
+        returnlist = []
+        if (value == "student"):
+            for s in self.student_list:
+                if filter in s.name:
+                    returnlist.append(s)
+
+        elif (value == "lesson"):
+            for l in self.lesson_list:
+                if filter in l.code:
+                    returnlist.append(l)
+        return returnlist
+
+        #elif (value == "teacher"):
+            #for t in self.teacher_list:
+                #t.writer()
+        #elif (value == "room"):
+            #for r in self.room_list:
+                #r.writer()
+       # elif (value == "lesson"):
+            #for l in self.lesson_list:
+             #   l.writer()
+
+    def del_student(self, studentNumber: int):
+        number = 0
+        sObj = self.student_list[studentNumber]
+        self.student_list.remove(sObj)
+        writeToFile(self)
+
+    def del_teacher(self, teacherNumber: int):
+        number = 0
+        tObj = self.teacher_list[teacherNumber]
+        self.teacher_list.remove(tObj)
+        writeToFile(self)
+
 
     def add_student(self, student_name: str):
         print("adding students...")
@@ -128,6 +215,7 @@ class School:
 
         self.student_list.append(student)
         print("successful..")
+        writeToFile(self)
 
     def __repr__(self):
 
@@ -143,7 +231,7 @@ class School:
 
         self.teacher_list.append(teacherObj)
         print("successful..")
-
+        writeToFile(self)
     def add_room(self, room_name: str):
         print("\nadding room...")
 
@@ -151,7 +239,7 @@ class School:
 
         self.room_list.append(room)
         print("successful..")
-
+        writeToFile(self)
     def add_admin(self, admin_name: str):
         print("\nadding admin user...")
 
@@ -159,7 +247,7 @@ class School:
 
         self.admin_list.append(admin)
         print("successful..")
-
+        writeToFile(self)
     def add_lesson(self, lesson_type: LesseonType, code: str):
         """
         :param lesson_type:
@@ -170,7 +258,7 @@ class School:
         lessonObj = Lesson(lesson_type, code)
         self.lesson_list.append(lessonObj)
         print("successful..")
-
+        writeToFile(self)
     @classmethod
     def add_lesson_to_room(cls, lessonObj: Lesson, roomObj: Room):
         """
@@ -179,18 +267,31 @@ class School:
         :param roomObj: eklenecek sınıf
         :return:
         """
-        roomObj.lesson_list.append(lessonObj)
+
         lessonObj.lessonRoom = roomObj
 
     @classmethod
     def add_lesson_to_teacher(cls, lessonObj: Lesson, teacherObj:Teacher):
 
-        lessonObj.teacher_list.append(teacherObj)
+
         teacherObj.lesson_list.append(lessonObj)
+    @classmethod
+    def del_lesson_to_teacher(cls, teacherObj: Teacher, lessonObj: Lesson):
+        teacherObj.lesson_list.remove(lessonObj)
 
 
     @classmethod
     def add_student_to_lesson(cls,studentObj: Student, lessonObj: Lesson):
 
         studentObj.lesson_list.append(lessonObj)
-        lessonObj.student_list.append(studentObj)
+
+    @classmethod
+    def del_student_to_lesson(cls,studentObj: Student, lessonObj: Lesson):
+        studentObj.lesson_list.remove(lessonObj)
+
+
+
+
+
+
+
